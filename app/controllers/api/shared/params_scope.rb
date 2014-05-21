@@ -8,12 +8,12 @@ module API
       end
 
       params :create_user do
-        requires :nickname, type: String
+        requires :nickname, type: String, max_length: 255
       end
 
       params :create_device do
         requires :uuid, type: String
-        requires :os,   type: String
+        requires :os,   type: String, values: ['ios', 'android']
       end
 
     end

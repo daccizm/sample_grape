@@ -12,6 +12,8 @@ module API
 
         helpers API::Shared::ParamsScope
 
+        include API::Shared::Validators
+
         # パラメータ検証エラー
         rescue_from Grape::Exceptions::ValidationErrors do |e|
           Rack::Response.new(
