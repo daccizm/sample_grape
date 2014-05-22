@@ -7,19 +7,20 @@ module API
       resource :users do
         desc "ユーザー情報登録"
         params do
-          use :create_user, :create_device
+          use :user, :device
         end
         get :create do
-          current_user
+          {message: '正常に登録しました。'}
         end
 
         desc "ユーザー情報更新"
         params do
-          use :authentication, :create_user
+          use :authentication, :user
+          optional :token, type: String
         end
         get :update do
         	authenticate!
-        	current_user
+          {message: '正常に更新しました。'}
         end
       end
 

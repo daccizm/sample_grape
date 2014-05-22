@@ -19,6 +19,7 @@ module API
       #
       class MaxLength < Grape::Validations::SingleOptionValidator
         def validate_param!(attr_name, params)
+          return if params[attr_name].blank?
           unless params[attr_name].length <= @option
             raise Grape::Exceptions::Validation,
               param: @scope.full_name(attr_name),

@@ -8,7 +8,7 @@ module API
       end
 
       def authenticate!
-  	    raise API::Shared::Exceptions::AuthenticatedError.new('登録されていない端末からアクセスしています。') unless @current_user
+  	    raise API::Shared::Exceptions::AuthenticatedError.new('登録されていない端末からアクセスしています。') unless current_user
       end
 
     end

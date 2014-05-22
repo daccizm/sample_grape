@@ -14,12 +14,15 @@ module API
 
         include API::Shared::Validators
 
+        before do
+          header 'Content-Type', 'application/json; charset=utf-8'
+        end
+
         # パラメータ検証エラー
         rescue_from Grape::Exceptions::ValidationErrors do |e|
           Rack::Response.new(
             { error: { code: 11, messages: e.errors } }.to_json,
-            e.status,
-            { "Content-type" => "application/json" }
+            e.status
           ).finish
         end
 
@@ -27,8 +30,7 @@ module API
         rescue_from API::Shared::Exceptions::AuthenticatedError do |e|
           Rack::Response.new(
             { error: { code: 12, message: e.message } }.to_json,
-            401,
-            { "Content-type" => "application/json" }
+            401
           ).finish
         end
 

@@ -7,13 +7,14 @@ module API
         requires :uuid, type: String
       end
 
-      params :create_user do
+      params :user do
         requires :nickname, type: String, max_length: 255
       end
 
-      params :create_device do
+      params :device do
         requires :uuid, type: String
-        requires :os,   type: String, values: ['ios', 'android']
+        optional :token, type: String
+        requires :os, type: String, values: ['ios', 'android']
       end
 
     end

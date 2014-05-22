@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-  mount API::Base => '/api'
+  mount API::Base => '/'
   # mount API::V1::Users => '/'
 
   # The priority is based upon order of creation: first created -> highest priority.
