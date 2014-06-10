@@ -1,0 +1,1 @@
+Time::DATE_FORMATS[:scheduletime] = '%Y%m%d%H%M'

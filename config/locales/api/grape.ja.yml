@@ -1,0 +1,8 @@
+ja:
+  grape:
+    errors:
+      format: ! '%{attribute} %{message}'
+      messages:
+        presence: '必ず設定してください。'
+        values: '有効な値を設定してください。'
+        coerce: '正しく設定してください。'

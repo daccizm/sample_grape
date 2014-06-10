@@ -1,0 +1,9 @@
+ja:
+  activerecord:
+    errors:
+      models:
+        user:
+          not_found_in_database: '指定されたユーザーは見つかりませんでした。'
+          attributes:
+            devices:
+              invalid: '既に存在するUUIDです。'

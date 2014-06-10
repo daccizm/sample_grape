@@ -19,8 +19,10 @@ module Act
     config.active_record.default_timezone = :local
 
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
-    # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
-    # config.i18n.default_locale = :de
+    config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}').to_s]
+    config.i18n.available_locales = [:ja, :en]
+    config.i18n.default_locale = :ja
+    # config.i18n.enforce_available_locales = true
 
     config.generators do |g|
       g.orm :active_record
@@ -34,5 +36,10 @@ module Act
       g.assets false
       g.helper false
     end
+
+    config.middleware.use(Rack::Config) do |env|
+      env['api.tilt.root'] = Rails.root.join 'app', 'views', 'api'
+    end
+
   end
 end

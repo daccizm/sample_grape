@@ -1,0 +1,6 @@
+ja:
+  api:
+    errors:
+      messages:
+        invalid_access:
+          device: '登録されていない端末からアクセスしています。'

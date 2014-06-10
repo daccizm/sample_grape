@@ -11,10 +11,62 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140518110513) do
+ActiveRecord::Schema.define(version: 20140530034810) do
+
+  create_table "devices", force: true do |t|
+    t.string   "uuid",       null: false
+    t.string   "token"
+    t.string   "os"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "devices", ["uuid"], name: "index_devices_on_uuid", unique: true
+
+  create_table "events", force: true do |t|
+    t.string   "code"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "schedule_actors", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "schedule_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "schedules", force: true do |t|
+    t.integer  "user_id"
+    t.string   "guid",                       null: false
+    t.string   "title"
+    t.string   "image"
+    t.text     "description"
+    t.datetime "start_datetime"
+    t.datetime "end_datetime"
+    t.boolean  "all_day"
+    t.string   "place"
+    t.string   "latitude"
+    t.string   "longitude"
+    t.integer  "lock_version",   default: 0, null: false
+    t.datetime "deleted_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "schedules", ["guid"], name: "index_schedules_on_guid", unique: true
+
+  create_table "shared_event_actors", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "event_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "users", force: true do |t|
     t.string   "nickname"
+    t.string   "thumbnail"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

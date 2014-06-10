@@ -3,12 +3,13 @@ module API
     module UsersHelpers
 
       def current_user
-        # @current_user = Devise.find(uuid: params[:uuid]).user
-        @current_user ||= User.new(nickname: 'hoge')
+        @current_device ||= Device.find_by(uuid: params[:uuid])
+        @current_user = @current_device.user if @current_device
       end
 
       def authenticate!
-  	    raise API::Shared::Exceptions::AuthenticatedError.new('登録されていない端末からアクセスしています。') unless current_user
+        current_user
+  	    raise API::Shared::Exceptions::AuthenticatedError.new( I18n.t('api.errors.messages.invalid_access.device') ) if @current_device.nil?
       end
 
     end
