@@ -27,7 +27,7 @@ module API
           use :authentication, :schedule, :actors
         end
         include API::Shared::Transaction
-        post 'create_by_act', rabl: 'v1/schedule/create_by_act' do
+        post 'create_by_act', rabl: 'v1/schedule/create' do
           authenticate!
           @schedule = @current_user.schedules.build(
             title:          params[:title],
@@ -40,15 +40,11 @@ module API
             latitude:       params[:latitude],
             longitude:      params[:longitude],
           )
-
-          actors = [{ user_id: @current_user.id }]
           # params[:actors].each_with_index do |actor, index|
           #   actors[index] = { user_id: User.find_by_uuid( actor[:uuid] ).id }
           # end
-          @schedule.actors_attributes = actors
+          @schedule.actors_attributes = [{ user_id: @current_user.id }]
           @schedule.save!
-
-          {message: '正常に更新しました。'}
         end
 
         #
@@ -56,11 +52,24 @@ module API
         #
         desc "連携アプリを使用して共有する予定を登録"
         params do
-          use :authentication, :schedule_key, :schedule
+          use :authentication, :schedule
         end
-        get 'create' do
+        include API::Shared::Transaction
+        post 'create', rabl: 'v1/schedule/create' do
           authenticate!
-          {message: '正常に登録しました。'}
+          @schedule = @current_user.schedules.build(
+            title:          params[:title],
+            image:          params[:image],
+            description:    params[:description],
+            start_datetime: params[:start_datetime],
+            end_datetime:   params[:end_datetime],
+            all_day:        params[:all_day],
+            place:          params[:place],
+            latitude:       params[:latitude],
+            longitude:      params[:longitude],
+          )
+          @schedule.actors_attributes = [{ user_id: @current_user.id }]
+          @schedule.save!
         end
 
         #

@@ -99,347 +99,15 @@ describe API do
         end
       end
 
-
       describe 'POST /v1/schedules/create_by_act' do
 
         before do
           post '/v1/schedules/create_by_act', parameters
         end
 
-        describe 'パラメータ不正' do
-          context '「uuid」欠落' do
-            let(:parameters) { {
-              # uuid: @schedule1.user.devices.first.uuid,
-              title: @schedule1.title,
-              image: @schedule1.image,
-              description: @schedule1.description,
-              start_datetime: @schedule1.start_datetime.to_s(:scheduletime),
-              end_datetime: @schedule1.end_datetime.to_s(:scheduletime),
-              all_day: @schedule1.all_day,
-              place: @schedule1.place,
-              latitude: @schedule1.latitude,
-              longitude: @schedule1.longitude,
-              actors: [ {nickname: 'hoge', uuid: 'bar'} ],
-            } }
-            let(:result) { {uuid: ['必ず設定してください。']} }
-            it_behaves_like('parameters invalid')
-          end
-
-          context '「title」欠落' do
-            let(:parameters) { {
-              uuid: @schedule1.user.devices.first.uuid,
-              # title: @schedule1.title,
-              image: @schedule1.image,
-              description: @schedule1.description,
-              start_datetime: @schedule1.start_datetime.to_s(:scheduletime),
-              end_datetime: @schedule1.end_datetime.to_s(:scheduletime),
-              all_day: @schedule1.all_day,
-              place: @schedule1.place,
-              latitude: @schedule1.latitude,
-              longitude: @schedule1.longitude,
-              actors: [ {nickname: 'hoge', uuid: 'bar'} ],
-            } }
-            let(:result) { {title: ['必ず設定してください。']} }
-            it_behaves_like('parameters invalid')
-          end
-
-          context '「image」欠落' do
-            let(:parameters) { {
-              uuid: @schedule1.user.devices.first.uuid,
-              title: @schedule1.title,
-              # image: @schedule1.image,
-              description: @schedule1.description,
-              start_datetime: @schedule1.start_datetime.to_s(:scheduletime),
-              end_datetime: @schedule1.end_datetime.to_s(:scheduletime),
-              all_day: @schedule1.all_day,
-              place: @schedule1.place,
-              latitude: @schedule1.latitude,
-              longitude: @schedule1.longitude,
-              actors: [ {nickname: 'hoge', uuid: 'bar'} ],
-            } }
-            let(:result) { {image: ['必ず設定してください。']} }
-            it_behaves_like('parameters invalid')
-          end
-
-          context '「description」欠落' do
-            let(:parameters) { {
-              uuid: @schedule1.user.devices.first.uuid,
-              title: @schedule1.title,
-              image: @schedule1.image,
-              # description: @schedule1.description,
-              start_datetime: @schedule1.start_datetime.to_s(:scheduletime),
-              end_datetime: @schedule1.end_datetime.to_s(:scheduletime),
-              all_day: @schedule1.all_day,
-              place: @schedule1.place,
-              latitude: @schedule1.latitude,
-              longitude: @schedule1.longitude,
-              actors: [ {nickname: 'hoge', uuid: 'bar'} ],
-            } }
-            let(:result) { {description: ['必ず設定してください。']} }
-            it_behaves_like('parameters invalid')
-          end
-
-          context '「start_datetime」欠落' do
-            let(:parameters) { {
-              uuid: @schedule1.user.devices.first.uuid,
-              title: @schedule1.title,
-              image: @schedule1.image,
-              description: @schedule1.description,
-              # start_datetime: @schedule1.start_datetime.to_s(:scheduletime),
-              end_datetime: @schedule1.end_datetime.to_s(:scheduletime),
-              all_day: @schedule1.all_day,
-              place: @schedule1.place,
-              latitude: @schedule1.latitude,
-              longitude: @schedule1.longitude,
-              actors: [ {nickname: 'hoge', uuid: 'bar'} ],
-            } }
-            let(:result) { {start_datetime: ['必ず設定してください。', '日時はYYYYMMDDHHmmで指定して下さい。']} }
-            it_behaves_like('parameters invalid')
-          end
-
-          context '「start_datetime」YYYYMMDDHHmm形式以外' do
-            let(:parameters) { {
-              uuid: @schedule1.user.devices.first.uuid,
-              title: @schedule1.title,
-              image: @schedule1.image,
-              description: @schedule1.description,
-              start_datetime: '20140606',
-              end_datetime: @schedule1.end_datetime.to_s(:scheduletime),
-              all_day: @schedule1.all_day,
-              place: @schedule1.place,
-              latitude: @schedule1.latitude,
-              longitude: @schedule1.longitude,
-              actors: [ {nickname: 'hoge', uuid: 'bar'} ],
-            } }
-            let(:result) { {start_datetime: ['日時はYYYYMMDDHHmmで指定して下さい。']} }
-            it_behaves_like('parameters invalid')
-          end
-
-          context '「end_datetime」欠落' do
-            let(:parameters) { {
-              uuid: @schedule1.user.devices.first.uuid,
-              title: @schedule1.title,
-              image: @schedule1.image,
-              description: @schedule1.description,
-              start_datetime: @schedule1.start_datetime.to_s(:scheduletime),
-              # end_datetime: @schedule1.end_datetime.to_s(:scheduletime),
-              all_day: @schedule1.all_day,
-              place: @schedule1.place,
-              latitude: @schedule1.latitude,
-              longitude: @schedule1.longitude,
-              actors: [ {nickname: 'hoge', uuid: 'bar'} ],
-            } }
-            let(:result) { {end_datetime: ['必ず設定してください。', '日時はYYYYMMDDHHmmで指定して下さい。']} }
-            it_behaves_like('parameters invalid')
-          end
-
-          context '「end_datetime」YYYYMMDDHHmm形式以外' do
-            let(:parameters) { {
-              uuid: @schedule1.user.devices.first.uuid,
-              title: @schedule1.title,
-              image: @schedule1.image,
-              description: @schedule1.description,
-              start_datetime: @schedule1.start_datetime.to_s(:scheduletime),
-              end_datetime: '20140606',
-              all_day: @schedule1.all_day,
-              place: @schedule1.place,
-              latitude: @schedule1.latitude,
-              longitude: @schedule1.longitude,
-              actors: [ {nickname: 'hoge', uuid: 'bar'} ],
-            } }
-            let(:result) { {end_datetime: ['日時はYYYYMMDDHHmmで指定して下さい。']} }
-            it_behaves_like('parameters invalid')
-          end
-
-          context '「all_day」欠落' do
-            let(:parameters) { {
-              uuid: @schedule1.user.devices.first.uuid,
-              title: @schedule1.title,
-              image: @schedule1.image,
-              description: @schedule1.description,
-              start_datetime: @schedule1.start_datetime.to_s(:scheduletime),
-              end_datetime: @schedule1.end_datetime.to_s(:scheduletime),
-              # all_day: @schedule1.all_day,
-              place: @schedule1.place,
-              latitude: @schedule1.latitude,
-              longitude: @schedule1.longitude,
-              actors: [ {nickname: 'hoge', uuid: 'bar'} ],
-            } }
-            let(:result) { {all_day: ['必ず設定してください。']} }
-            it_behaves_like('parameters invalid')
-          end
-
-          context '「all_day」Boolean以外' do
-            let(:parameters) { {
-              uuid: @schedule1.user.devices.first.uuid,
-              title: @schedule1.title,
-              image: @schedule1.image,
-              description: @schedule1.description,
-              start_datetime: @schedule1.start_datetime.to_s(:scheduletime),
-              end_datetime: @schedule1.end_datetime.to_s(:scheduletime),
-              all_day: 'OK',
-              place: @schedule1.place,
-              latitude: @schedule1.latitude,
-              longitude: @schedule1.longitude,
-              actors: [ {nickname: 'hoge', uuid: 'bar'} ],
-            } }
-            let(:result) { {all_day: ['正しく設定してください。']} }
-            it_behaves_like('parameters invalid')
-          end
-
-          context '「place」欠落' do
-            let(:parameters) { {
-              uuid: @schedule1.user.devices.first.uuid,
-              title: @schedule1.title,
-              image: @schedule1.image,
-              description: @schedule1.description,
-              start_datetime: @schedule1.start_datetime.to_s(:scheduletime),
-              end_datetime: @schedule1.end_datetime.to_s(:scheduletime),
-              all_day: @schedule1.all_day,
-              # place: @schedule1.place,
-              latitude: @schedule1.latitude,
-              longitude: @schedule1.longitude,
-              actors: [ {nickname: 'hoge', uuid: 'bar'} ],
-            } }
-            let(:result) { {place: ['必ず設定してください。']} }
-            it_behaves_like('parameters invalid')
-          end
-
-          context '「latitude」欠落' do
-            let(:parameters) { {
-              uuid: @schedule1.user.devices.first.uuid,
-              title: @schedule1.title,
-              image: @schedule1.image,
-              description: @schedule1.description,
-              start_datetime: @schedule1.start_datetime.to_s(:scheduletime),
-              end_datetime: @schedule1.end_datetime.to_s(:scheduletime),
-              all_day: @schedule1.all_day,
-              place: @schedule1.place,
-              # latitude: @schedule1.latitude,
-              longitude: @schedule1.longitude,
-              actors: [ {nickname: 'hoge', uuid: 'bar'} ],
-            } }
-            let(:result) { {latitude: ['必ず設定してください。']} }
-            it_behaves_like('parameters invalid')
-          end
-
-          context '「longitude」欠落' do
-            let(:parameters) { {
-              uuid: @schedule1.user.devices.first.uuid,
-              title: @schedule1.title,
-              image: @schedule1.image,
-              description: @schedule1.description,
-              start_datetime: @schedule1.start_datetime.to_s(:scheduletime),
-              end_datetime: @schedule1.end_datetime.to_s(:scheduletime),
-              all_day: @schedule1.all_day,
-              place: @schedule1.place,
-              latitude: @schedule1.latitude,
-              # longitude: @schedule1.longitude,
-              actors: [ {nickname: 'hoge', uuid: 'bar'} ],
-            } }
-            let(:result) { {longitude: ['必ず設定してください。']} }
-            it_behaves_like('parameters invalid')
-          end
-
-          context '「actors」欠落' do
-            let(:parameters) { {
-              uuid: @schedule1.user.devices.first.uuid,
-              title: @schedule1.title,
-              image: @schedule1.image,
-              description: @schedule1.description,
-              start_datetime: @schedule1.start_datetime.to_s(:scheduletime),
-              end_datetime: @schedule1.end_datetime.to_s(:scheduletime),
-              all_day: @schedule1.all_day,
-              place: @schedule1.place,
-              latitude: @schedule1.latitude,
-              longitude: @schedule1.longitude,
-              # actors: [ {nickname: 'hoge', uuid: 'bar'} ],
-            } }
-            let(:result) { {actors: ['必ず設定してください。']} }
-            it_behaves_like('parameters invalid')
-          end
-
-          context '「actors」nickname 欠落' do
-            let(:parameters) { {
-              uuid: @schedule1.user.devices.first.uuid,
-              title: @schedule1.title,
-              image: @schedule1.image,
-              description: @schedule1.description,
-              start_datetime: @schedule1.start_datetime.to_s(:scheduletime),
-              end_datetime: @schedule1.end_datetime.to_s(:scheduletime),
-              all_day: @schedule1.all_day,
-              place: @schedule1.place,
-              latitude: @schedule1.latitude,
-              longitude: @schedule1.longitude,
-              actors: [ {nickname: 'ヤマダ　太郎', uuid: '1234'}, {uuid: '5678'} ],
-            } }
-            let(:result) { {'actors[nickname]' => ['必ず設定してください。']} }
-            it_behaves_like('parameters invalid')
-          end
-
-          context '「actors」uuid 欠落' do
-            let(:parameters) { {
-              uuid: @schedule1.user.devices.first.uuid,
-              title: @schedule1.title,
-              image: @schedule1.image,
-              description: @schedule1.description,
-              start_datetime: @schedule1.start_datetime.to_s(:scheduletime),
-              end_datetime: @schedule1.end_datetime.to_s(:scheduletime),
-              all_day: @schedule1.all_day,
-              place: @schedule1.place,
-              latitude: @schedule1.latitude,
-              longitude: @schedule1.longitude,
-              actors: [ {nickname: 'ヤマダ　太郎', uuid: '1234'}, {nickname: 'ヤマダ　次郎'} ],
-            } }
-            let(:result) { {'actors[uuid]' => ['必ず設定してください。']} }
-            it_behaves_like('parameters invalid')
-          end
-
-          context '未登録端末からのアクセス' do
-            let(:parameters) { {
-              uuid: '50A21988-BAF2-1712-0872-7ED0C7219795',
-              title: @schedule1.title,
-              image: @schedule1.image,
-              description: @schedule1.description,
-              start_datetime: @schedule1.start_datetime.to_s(:scheduletime),
-              end_datetime: @schedule1.end_datetime.to_s(:scheduletime),
-              all_day: @schedule1.all_day,
-              place: @schedule1.place,
-              latitude: @schedule1.latitude,
-              longitude: @schedule1.longitude,
-              actors: [ {nickname: 'ヤマダ　太郎', uuid: '1234'}, {nickname: 'ヤマダ　次郎', uuid: '5678'} ],
-            } }
-            let(:result) { '登録されていない端末からアクセスしています。' }
-            it_behaves_like('device invalid')
-          end
-        end
-
-        # describe '異常終了' do
-        #   context '存在しない参加者が含まれる' do
-        #     let(:parameters) { {
-        #       uuid: @schedule1.user.devices.first.uuid,
-        #       title: @schedule1.title,
-        #       image: @schedule1.image,
-        #       description: @schedule1.description,
-        #       start_datetime: @schedule1.start_datetime.to_s(:scheduletime),
-        #       end_datetime: @schedule1.end_datetime.to_s(:scheduletime),
-        #       all_day: @schedule1.all_day,
-        #       place: @schedule1.place,
-        #       latitude: @schedule1.latitude,
-        #       longitude: @schedule1.longitude,
-        #       actors: [ {nickname: 'ヤマダ　太郎', uuid: '1234'} ],
-        #     } }
-        #     let(:result) { '指定されたユーザーは見つかりませんでした。' }
-        #     it_behaves_like('database not found')
-        #   end
-        # end
-
-        describe '正常終了' do
-          context 'Created Success' do
-            let(:schedule) {
-              Schedule.find_by( title: @schedule.title )
-            }
-            let(:parameters) { {
+        it_should_behave_like '予定登録共通パラメータ不正' do
+          let(:base_parameters) do
+            {
               uuid: @owner.devices.first.uuid,
               title: @schedule.title,
               image: @schedule.image,
@@ -451,19 +119,140 @@ describe API do
               latitude: @schedule.latitude,
               longitude: @schedule.longitude,
               actors: [ {nickname: @actor_user.nickname, uuid: @actor_user.devices.first.uuid} ],
-            } }
-            let(:result) { {
-              schedule: {
-                guid: schedule.guid,
-                lock_version: 0,
+            }
+          end
+        end
+
+        context '参加者パラメータ不正' do
+
+          let(:base_parameters) do
+            {
+              uuid: @owner.devices.first.uuid,
+              title: @schedule.title,
+              image: @schedule.image,
+              description: @schedule.description,
+              start_datetime: @schedule.start_datetime.to_s(:scheduletime),
+              end_datetime: @schedule.end_datetime.to_s(:scheduletime),
+              all_day: @schedule.all_day,
+              place: @schedule.place,
+              latitude: @schedule.latitude,
+              longitude: @schedule.longitude,
+              actors: [ {nickname: @actor_user.nickname, uuid: @actor_user.devices.first.uuid} ],
+            }
+          end
+
+          it_should_behave_like '「actors」欠落' do
+            let(:parameters) do
+              base_parameters.delete(:actors)
+              base_parameters
+            end
+          end
+
+          it_should_behave_like '「actors」nickname 欠落' do
+            let(:parameters) do
+              base_parameters[:actors] = [ {nickname: 'ヤマダ　太郎', uuid: '1234'}, {uuid: '5678'} ]
+              base_parameters
+            end
+          end
+
+          it_should_behave_like '「actors」uuid 欠落' do
+            let(:parameters) do
+              base_parameters[:actors] = [ {nickname: 'ヤマダ　太郎', uuid: '1234'}, {nickname: 'ヤマダ　次郎'} ]
+              base_parameters
+            end
+          end
+        end
+
+        describe '正常終了' do
+          context 'Created Success' do
+            let(:schedule) do
+              Schedule.find_by( title: @schedule.title )
+            end
+            let(:parameters) do
+              {
+                uuid: @owner.devices.first.uuid,
+                title: @schedule.title,
+                image: @schedule.image,
+                description: @schedule.description,
+                start_datetime: @schedule.start_datetime.to_s(:scheduletime),
+                end_datetime: @schedule.end_datetime.to_s(:scheduletime),
+                all_day: @schedule.all_day,
+                place: @schedule.place,
+                latitude: @schedule.latitude,
+                longitude: @schedule.longitude,
+                actors: [ {nickname: @actor_user.nickname, uuid: @actor_user.devices.first.uuid} ],
               }
-            } }
+            end
+            let(:result) do
+              {
+                schedule: {
+                  guid: schedule.guid,
+                  lock_version: 0,
+                }
+              }
+            end
             it {expect(schedule.guid.length).to eq 36}
             it_behaves_like('created success')
           end
         end
-
       end
+
+      describe 'POST /v1/schedules/create' do
+
+        before do
+          post '/v1/schedules/create', parameters
+        end
+
+        it_should_behave_like '予定登録共通パラメータ不正' do
+          let(:base_parameters) do
+            {
+              uuid: @owner.devices.first.uuid,
+              title: @schedule.title,
+              image: @schedule.image,
+              description: @schedule.description,
+              start_datetime: @schedule.start_datetime.to_s(:scheduletime),
+              end_datetime: @schedule.end_datetime.to_s(:scheduletime),
+              all_day: @schedule.all_day,
+              place: @schedule.place,
+              latitude: @schedule.latitude,
+              longitude: @schedule.longitude,
+            }
+          end
+        end
+
+        describe '正常終了' do
+          context 'Created Success' do
+            let(:schedule) do
+              Schedule.find_by( title: @schedule.title )
+            end
+            let(:parameters) do
+              {
+                uuid: @owner.devices.first.uuid,
+                title: @schedule.title,
+                image: @schedule.image,
+                description: @schedule.description,
+                start_datetime: @schedule.start_datetime.to_s(:scheduletime),
+                end_datetime: @schedule.end_datetime.to_s(:scheduletime),
+                all_day: @schedule.all_day,
+                place: @schedule.place,
+                latitude: @schedule.latitude,
+                longitude: @schedule.longitude,
+              }
+            end
+            let(:result) do
+              {
+                schedule: {
+                  guid: schedule.guid,
+                  lock_version: 0,
+                }
+              }
+            end
+            it {expect(schedule.guid.length).to eq 36}
+            it_behaves_like('created success')
+          end
+        end
+      end
+
     end
   end
 end
