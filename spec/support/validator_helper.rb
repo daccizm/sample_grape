@@ -5,6 +5,16 @@ module ValidatorHelper
     it_behaves_like('device invalid')
   end
 
+  shared_examples_for '存在しない予定識別IDで検索' do
+    let(:result) { '指定された予定は見つかりませんでした。' }
+    it_behaves_like('database not found')
+  end
+
+  shared_examples_for '「schedule_guid」欠落' do
+    let(:result) { {schedule_guid: ['必ず設定してください。']} }
+    it_behaves_like('parameters invalid')
+  end
+
   shared_examples_for '「uuid」欠落' do
     let(:result) { {uuid: ['必ず設定してください。']} }
     it_behaves_like('parameters invalid')

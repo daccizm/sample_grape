@@ -18,47 +18,50 @@ describe API do
         @schedule = build(:new_schedule)
       end
 
+      #
+      # 予定詳細取得API
+      #
       describe 'GET /v1/schedules/show' do
 
         before do
           get '/v1/schedules/show', parameters
         end
 
-        describe 'パラメータ不正' do
-          context '「uuid」欠落' do
-            let(:parameters) { {
-              schedule_guid: '60A21988-BAF2-1712-0872-7ED0C7219795',
-            } }
-            let(:result) { {uuid: ['必ず設定してください。']} }
-            it_behaves_like('parameters invalid')
+        context 'パラメータ不正' do
+
+          let(:base_parameters) do
+            {
+              uuid: @schedule1.user.devices.first.uuid,
+              schedule_guid: @schedule1.guid,
+            }
           end
 
-          context '「schedule_guid」欠落' do
-            let(:parameters) { {
-              uuid: '60A21988-BAF2-1712-0872-7ED0C7219795',
-            } }
-            let(:result) { {schedule_guid: ['必ず設定してください。']} }
-            it_behaves_like('parameters invalid')
+          it_should_behave_like '「uuid」欠落' do
+            let(:parameters) do
+              base_parameters.delete(:uuid)
+              base_parameters
+            end
           end
 
-          context '未登録端末からのアクセス' do
-            let(:parameters) { {
-              uuid: '50A21988-BAF2-1712-0872-7ED0C7219795',
-              schedule_guid: '60A21988-BAF2-1712-0872-7ED0C7219795',
-            } }
-            let(:result) { '登録されていない端末からアクセスしています。' }
-            it_behaves_like('device invalid')
+          it_should_behave_like '「schedule_guid」欠落' do
+            let(:parameters) do
+              base_parameters.delete(:schedule_guid)
+              base_parameters
+            end
           end
-        end
 
-        describe '異常終了' do
-          context '存在しない予定識別IDで検索' do
-            let(:parameters) { {
-              uuid: '60A21988-BAF2-1712-0872-7ED0C7219795',
-              schedule_guid: '60A21988-BAF2-1712-0872-7ED0C7219795',
-            } }
-            let(:result) { '指定された予定は見つかりませんでした。' }
-            it_behaves_like('database not found')
+          it_should_behave_like '未登録端末からのアクセス' do
+            let(:parameters) do
+              base_parameters[:uuid] = '50A21988-BAF2-1712-0872-7ED0C7219795'
+              base_parameters
+            end
+          end
+
+          it_should_behave_like '存在しない予定識別IDで検索' do
+            let(:parameters) do
+              base_parameters[:schedule_guid] = 'none'
+              base_parameters
+            end
           end
         end
 
@@ -99,6 +102,9 @@ describe API do
         end
       end
 
+      #
+      # 予定登録（Act）
+      #
       describe 'POST /v1/schedules/create_by_act' do
 
         before do
@@ -197,6 +203,9 @@ describe API do
         end
       end
 
+      #
+      # 予定登録（連携アプリ）
+      #
       describe 'POST /v1/schedules/create' do
 
         before do
